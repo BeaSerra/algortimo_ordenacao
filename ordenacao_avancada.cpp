@@ -1,35 +1,47 @@
-#include "biblioteca.h"
-#include <vector>
-#include <utility>
-#include <ctime> // Necessário para usar clock() e clock_t da biblioteca <time.h>
+//LUIS FILIPE VIEIRA NEVES - 202204940033
+// Descrição: implementação do algoritmo de ordenação Quick Sort (Categoria 2 — baseado em comparações diretas para a ordenação final).
 
-// Função auxiliar para o Quick Sort encontrar o pivô
-int particionar(std::vector<int>& v, int inicio, int fim, long &comparacoes, long &trocas) {
-    int pivo = v[fim];
+
+#include "biblioteca.h"
+#include <utility>
+
+using namespace std;
+
+// Função auxiliar para o Quick Sort encontrar o pivô (Membro da classe TADOrdenacao)
+int TADOrdenacao::particionar(int inicio, int fim, long &comparacoes, long &trocas) {
+  
+    int pivo = vetorTrabalho[fim];
     int i = inicio - 1;
 
     for (int j = inicio; j < fim; j++) {
-        comparacoes++; // Incrementa a comparação feita no 'if'
-        if (v[j] <= pivo) {
+        comparacoes++; // Incrementa a comparação
+        if (vetorTrabalho[j] <= pivo) {
             i++;
-            std::swap(v[i], v[j]);
-            trocas++; // Incrementa a troca de posição
+            swap(vetorTrabalho[i], vetorTrabalho[j]);
+            trocas++; // Incrementa a troca realizada
         }
     }
     
-    std::swap(v[i + 1], v[fim]);
+    swap(vetorTrabalho[i + 1], vetorTrabalho[fim]);
     trocas++; // Incrementa a troca final para colocar o pivô no lugar correto
     
     return i + 1;
 }
 
-// Algoritmo Categoria 2: Quick Sort (Recursivo)
-void quickSort(std::vector<int>& v, int inicio, int fim, long &comparacoes, long &trocas) {
+// Algoritmo Categoria 2: Quick Sort Recursivo (Membro da classe TADOrdenacao)
+void TADOrdenacao::quickSort(int inicio, int fim, long &comparacoes, long &trocas) {
+    // Se for a primeira chamada recursiva (raiz), garante que os contadores iniciam zerados
+    if (inicio == 0 && fim == (int)vetorTrabalho.size() - 1) {
+        comparacoes = 0;
+        trocas = 0;
+    }
+
     if (inicio < fim) {
-        int pi = particionar(v, inicio, fim, comparacoes, trocas);
-        quickSort(v, inicio, pi - 1, comparacoes, trocas);
-        quickSort(v, pi + 1, fim, comparacoes, trocas);
+        // Chama a função de particionamento da própria classe
+        int pi = particionar(inicio, fim, comparacoes, trocas);
+        
+        // Chamadas recursivas para as metades esquerda e direita
+        quickSort(inicio, pi - 1, comparacoes, trocas);
+        quickSort(pi + 1, fim, comparacoes, trocas);
     }
 }
-
-// Desenvolve o menu e chama as funções aqui...

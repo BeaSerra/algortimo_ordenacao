@@ -1,41 +1,32 @@
 #ifndef BIBLIOTECA_H
 #define BIBLIOTECA_H
 
-#include <vector>
+#include <vector> 
 
-// ============================================================================
-// PARTE 1: INTEGRAÇÃO, INTERFACE E ALGORITMO SIMPLES (Integrante 1)
-// ============================================================================
+class TADOrdenacao {
+private:
+    std::vector<int> vetorOriginal;  // Dados encapsulados (o vetor de entrada)
+    std::vector<int> vetorTrabalho;  // Cópia usada para fazer a ordenação sem perder o original
 
-// Preenche o vetor com números aleatórios
-void gerarVetorAleatorio(std::vector<int>& v, int tam);
+    // Função auxiliar do Quick Sort 
+    int particionar(int inicio, int fim, long &comparacoes, long &trocas);
 
-// Preenche o vetor de forma decrescente (pior caso para muitos algoritmos)
-void gerarVetorDecrescente(std::vector<int>& v, int tam);
+public:
+    // Construtor
+    TADOrdenacao();
 
-// Exibe os elementos do vetor na tela (utilizar apenas para vetores pequenos)
-void imprimirVetor(const std::vector<int>& v);
+    void inicializarVetor(int tamanho, int disposicao); // Define tamanho e gera os valores
+    void imprimirVetorAntes() const;                     // Apresenta o vetor antes da ordenação
+    void imprimirVetorDepois() const;                    // Apresenta o vetor depois da ordenação
+    void restaurarVetor();                              // Restaura o vetor de trabalho para o estado original
 
-// Algoritmo Categoria 1: Insertion Sort (Modifica o vetor e calcula trocas/comparações)
-void insertionSort(std::vector<int>& v, long &comparacoes, long &trocas);
+    // Algoritmos de Ordenação
+    void insertionSort(long &comparacoes, long &trocas);
+    void quickSort(int inicio, int fim, long &comparacoes, long &trocas);
+    void countingSort(long &comparacoes, long &trocas);
 
+    // Funções auxiliares de acesso
+    int obterTamanho() const;
+};
 
-// ============================================================================
-// PARTE 2: ALGORITMO AVANÇADO (Integrante 2)
-// ============================================================================
-
-// Função auxiliar para o Quick Sort encontrar o pivô
-int particionar(std::vector<int>& v, int inicio, int fim, long &comparacoes, long &trocas);
-
-// Algoritmo Categoria 2: Quick Sort (Recursivo)
-void quickSort(std::vector<int>& v, int inicio, int fim, long &comparacoes, long &trocas);
-
-
-// ============================================================================
-// PARTE 3: ALGORITMO LINEAR (Integrante 3)
-// ============================================================================
-
-// Algoritmo Categoria 3: Counting Sort (Não baseado em comparações)
-void countingSort(std::vector<int>& v, long &comparacoes, long &trocas);
-
-#endif 
+#endif // BIBLIOTECA_H
