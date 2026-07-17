@@ -29,4 +29,4 @@ public:
     int obterTamanho() const;
 };
 
-#endif // BIBLIOTECA_H
+#endif 
